@@ -67,9 +67,9 @@ namespace MobileAppX.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public string Url { get; set; }
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [ForeignKey(typeof(Thumbnails))]
         public int ThumbnailsId { get; set; }
@@ -81,9 +81,9 @@ namespace MobileAppX.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public string Url { get; set; }
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [ForeignKey(typeof(Thumbnails))]
         public int ThumbnailsId { get; set; }
@@ -95,9 +95,9 @@ namespace MobileAppX.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public string Url { get; set; }
-        public int Width { get; set; }
+        public int? Width { get; set; }
         public string ETag { get; set; }
 
         [ForeignKey(typeof(Thumbnails))]
@@ -110,9 +110,9 @@ namespace MobileAppX.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public string Url { get; set; }
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [ForeignKey(typeof(Thumbnails))]
         public int ThumbnailsId { get; set; }
@@ -124,9 +124,9 @@ namespace MobileAppX.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public string Url { get; set; }
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [ForeignKey(typeof(Thumbnails))]
         public int ThumbnailsId { get; set; }

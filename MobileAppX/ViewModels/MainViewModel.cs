@@ -19,7 +19,7 @@ namespace MobileAppX.ViewModels
     /// </summary>
     public class MainViewModel : INotifyPropertyChanged
     {
-        private List<YoutubeVideo> _youtubeVideos;
+        private List<YoutubeVideo> _allVideos;
         private YoutubeVideo _selectedYoutubeVideo;
         private bool _isBusy;
         private int _numberOfWatchedVideos;
@@ -30,38 +30,49 @@ namespace MobileAppX.ViewModels
 
         private readonly VideosRepository _videosRepository = new VideosRepository();
         private List<Tweet> _tweetsList;
-        private List<YoutubeVideo> _favouriteVideos;
-        private List<YoutubeVideo> _watchedVideos;
+        //private List<YoutubeVideo> _favouriteVideos;
+        //private List<YoutubeVideo> _watchedVideos;
+        private List<YoutubeVideo> _filteredVideos;
 
-        public List<YoutubeVideo> YoutubeVideos
+        //public List<YoutubeVideo> AllVideos
+        //{
+        //    get { return _allVideos; }
+        //    set
+        //    {
+        //        _allVideos = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+
+        public List<YoutubeVideo> FilteredVideos
         {
-            get { return _youtubeVideos; }
+            get { return _filteredVideos; }
             set
             {
-                _youtubeVideos = value;
+                _filteredVideos = value;
                 OnPropertyChanged();
             }
         }
 
-        public List<YoutubeVideo> FavouriteVideos
-        {
-            get { return _favouriteVideos; }
-            set
-            {
-                _favouriteVideos = value;
-                OnPropertyChanged();
-            }
-        }
+        //public List<YoutubeVideo> FavouriteVideos
+        //{
+        //    get { return _favouriteVideos; }
+        //    set
+        //    {
+        //        _favouriteVideos = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
-        public List<YoutubeVideo> WatchedVideos
-        {
-            get { return _watchedVideos; }
-            set
-            {
-                _watchedVideos = value;
-                OnPropertyChanged();
-            }
-        }
+        //public List<YoutubeVideo> WatchedVideos
+        //{
+        //    get { return _watchedVideos; }
+        //    set
+        //    {
+        //        _watchedVideos = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public YoutubeVideo SelectedYoutubeVideo
         {
@@ -215,16 +226,60 @@ namespace MobileAppX.ViewModels
             }
         }
 
-        //public ICommand SyncCommand
-        //{
-        //    get
-        //    {
-        //        return new Command(async () =>
-        //        {
-        //            await DownloadDataAsync();
-        //        });
-        //    }
-        //}
+        public ICommand SyncCommand
+        {
+            get
+            {
+                return new RelayCommand(async () =>
+                {
+                    await DownloadDataAsync();
+                });
+            }
+        }
+
+        public ICommand ShowAllVideosCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    FilteredVideos = _allVideos;
+                });
+            }
+        }
+
+        public ICommand FilterVideosByWatchedCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    FilteredVideos = _allVideos.Where(video => video.IsWatched).ToList();
+                });
+            }
+        }
+
+        public ICommand FilterVideosByUnwatchedCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    FilteredVideos = _allVideos.Where(video => video.IsWatched == false).ToList();
+                });
+            }
+        }
+
+        public ICommand FilterVideosByFavouriteCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    FilteredVideos = _allVideos.Where(video => video.IsFavorit).ToList();
+                });
+            }
+        }
 
         public MainViewModel()
         {
@@ -252,11 +307,13 @@ namespace MobileAppX.ViewModels
             }
             else
             {
-                YoutubeVideos = videos;
+                _allVideos = videos;
 
-                FavouriteVideos = videos.Where(video => video.IsFavorit).ToList();
+                FilteredVideos = videos;
 
-                WatchedVideos = videos.Where(video => video.IsWatched).ToList();
+                //FavouriteVideos = videos.Where(video => video.IsFavorit).ToList();
+
+                //WatchedVideos = videos.Where(video => video.IsWatched).ToList();
 
                 SetStatistics();
             }
@@ -275,9 +332,11 @@ namespace MobileAppX.ViewModels
 
             videos = videos.OrderByDescending(video => video.SearchResult.Snippet.PublishedAt).ToList();
 
-            YoutubeVideos = SetVideosUniqueId(videos);
+            _allVideos = SetVideosUniqueId(videos);
 
-            _videosRepository.InitiateVideos(_youtubeVideos);
+            FilteredVideos = _allVideos;
+
+            _videosRepository.InitiateVideos(_allVideos);
 
             SetStatistics();
 
@@ -286,13 +345,13 @@ namespace MobileAppX.ViewModels
 
         private void SetStatistics()
         {
-            if (_youtubeVideos.Any())
+            if (_allVideos.Any())
             {
-                NumberOfWatchedVideos = _youtubeVideos.Count(video => video.IsWatched);
+                NumberOfWatchedVideos = _allVideos.Count(video => video.IsWatched);
 
-                NumberOfFavoriteVideos = _youtubeVideos.Count(video => video.IsFavorit);
+                NumberOfFavoriteVideos = _allVideos.Count(video => video.IsFavorit);
 
-                NumberOfTotalVideos = _youtubeVideos.Count;
+                NumberOfTotalVideos = _allVideos.Count;
 
                 PercentageOfWatchedVideos = _numberOfWatchedVideos * 100 / _numberOfTotalVideos;
 

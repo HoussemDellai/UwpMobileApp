@@ -22,14 +22,14 @@ namespace MobileAppX.Converters
             }
             if (elapsedDays > 365)
             {
-                return elapsedDays / 365 + " years";
+                return elapsedDays / 365 + " years ago";
             }
             if (elapsedDays > 30)
             {
-                return elapsedDays / 30 + " months";
+                return elapsedDays / 30 + " months ago";
             }
 
-            return elapsedDays + " days";
+            return elapsedDays + " days ago";
         }
         
         public object ConvertBack(object value, Type targetType, object parameter, string language)

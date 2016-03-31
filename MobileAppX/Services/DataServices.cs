@@ -20,7 +20,7 @@ namespace MobileAppX.Services
         /// <returns></returns>
         public async Task<List<YoutubeVideo>> GetVideosAsync()
         {
-            var videosUrl = "http://socialmediaservices.azurewebsites.net/api/youtube/playlist/v2/UUKUOmGXE9Ytlc2EzpGqimtw/10";
+            var videosUrl = "http://socialmediaservices.azurewebsites.net/api/youtube/playlist/v2/UUKUOmGXE9Ytlc2EzpGqimtw/50";
 
             //"http://socialmediaservices.azurewebsites.net/api/youtube/playlist/v2/UUKUOmGXE9Ytlc2EzpGqimtw/5";
 

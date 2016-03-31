@@ -45,7 +45,7 @@ namespace MobileAppX.Configuration
             if (DesignMode.DesignModeEnabled)
             {
                 await MainViewModel.DownloadDataAsync();
-                MainViewModel.SelectedYoutubeVideo = MainViewModel.YoutubeVideos[5];
+                MainViewModel.SelectedYoutubeVideo = MainViewModel.FilteredVideos[5];
             }
         }
     }
